@@ -71,22 +71,14 @@ list($response_headers, $response_content) = preg_split('/(\r\n){2}/', $response
 header_remove();
 // (re-)send the headers
 
-$sholeReplace = false;
 $response_headers = preg_split('/(\r\n){1}/', $response_headers);
 foreach ($response_headers as $key => $response_header) {
     if (!preg_match('/^(Transfer-Encoding):/', $response_header) && !preg_match('/^(Content-Length):/', $response_header) ) {
         header($response_header, true);
     }
-
-    if(strpos($response_header,'Content-Type: text/html' ) > -1){
-        $sholeReplace = true;
-    }
 }
 
-if($sholeReplace){
-    $response_content = str_replace("京ICP备16007407号-1","",$response_content);
-    $response_content = str_replace("www.tzecc.com 版权所有","",$response_content);
-}
+ 
 
 echo $response_content;
 
