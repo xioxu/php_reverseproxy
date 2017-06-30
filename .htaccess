@@ -1,3 +1,4 @@
 RewriteEngine on
 RewriteCond $1 !^(proxy\.php)
-RewriteRule ^(.*)$ /reverseproxy/proxy.php/$1 [L]
+RewriteRule ^(.*)$ /proxy.php?dst=$1 [L]
+
