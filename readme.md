@@ -23,7 +23,7 @@ Installation
 edit config.php
 
     define('MASKED_DOMAIN', 'http://www.google.com');
-    define('PROXY_SUBFOLDER', 'reverseproxy');
+    define('PROXY_SUBFOLDER', '');
     define('FOLLOW_LOCATION', FALSE);
 
 * MASKED_DOMAIN is the site where this script will be getting its contents from, should have no traliling slashes.
@@ -35,7 +35,7 @@ edit .htaccess
 
     RewriteEngine on 
     RewriteCond $1 !^(proxy\.php) 
-    RewriteRule ^(.*)$ /reverseproxy/proxy.php/$1 [L]
+    RewriteRule ^(.*)$ /proxy.php/$1 [L]
 
 This directives allows the reverseproxy to catch all the URI intented for the original domain, like for example
 
@@ -43,7 +43,7 @@ This directives allows the reverseproxy to catch all the URI intented for the or
 
 With this setting, you can use
 
-    http://www.yourdomain.com/reverseproxy/blog/102014/hello-world
+    http://www.yourdomain.com/blog/102014/hello-world
 
 and the uri will be passed to the index.php and can then be passed to the original domain to rerieve the contents.
 Remember that if you are serving the contents from the root domain you only need to use this

@@ -14,8 +14,14 @@ function cn_urlencode($url){
     return $url;
 }
 
-$uri = $_GET["dst"] ;
-//$uri =  $_SERVER['REQUEST_URI'];
+$uri = "";
+
+if(isset($_GET["dst"])){
+    $uri = $_GET["dst"] ;
+}else{
+    $uri =  $_SERVER['REQUEST_URI'];
+}
+//
 //$uri = "Media/Default/home/视觉天职-1.png";
 
 if(PROXY_SUBFOLDER != '')
@@ -64,17 +70,22 @@ list($response_headers, $response_content) = preg_split('/(\r\n){2}/', $response
 
 header_remove();
 // (re-)send the headers
+
+$sholeReplace = false;
 $response_headers = preg_split('/(\r\n){1}/', $response_headers);
 foreach ($response_headers as $key => $response_header) {
     if (!preg_match('/^(Transfer-Encoding):/', $response_header) && !preg_match('/^(Content-Length):/', $response_header) ) {
         header($response_header, true);
     }
+
+    if(strpos($response_header,'Content-Type: text/html' ) > -1){
+        $sholeReplace = true;
+    }
 }
-function remove_utf8_bom($text)
-{
-    $bom = pack('H*','EFBBBF');
-    $text = preg_replace("/^$bom/", '', $text);
-    return $text;
+
+if($sholeReplace){
+    $response_content = str_replace("京ICP备16007407号-1","",$response_content);
+    $response_content = str_replace("www.tzecc.com 版权所有","",$response_content);
 }
 
 echo $response_content;
